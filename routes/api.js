@@ -19,16 +19,28 @@ module.exports = function(app) {
 
         const initNum = convertHandler.getNum(input)
         const initUnit = convertHandler.getUnit(input)
-        const returnNum = convertHandler.convert(initNum, initUnit)
-        const returnUnit = convertHandler.getReturnUnit(initUnit)
 
-        const toString = convertHandler.getString(
-            initNum,
-            initUnit,
-            returnNum,
-            returnUnit
-        )
+        if (initNum !== 'invalid number' && initUnit !== 'invalid unit') {
+            const returnNum = convertHandler.convert(initNum, initUnit)
+            const returnUnit = convertHandler.getReturnUnit(initUnit)
 
-        res.json(toString)
+            const toString = convertHandler.getString(
+                initNum,
+                initUnit,
+                returnNum,
+                returnUnit
+            )
+
+            res.json(toString)
+        } else if (
+            initNum === 'invalid number' &&
+            initUnit === 'invalid unit'
+        ) {
+            res.status(400).send('invalid number and unit')
+        } else if (initNum === 'invalid number') {
+            res.status(400).send('invalid number')
+        } else if (initUnit === 'invalid unit') {
+            res.status(400).send('invalid unit')
+        }
     })
 }
