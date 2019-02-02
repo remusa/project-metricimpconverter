@@ -10,9 +10,12 @@ function ConvertHandler() {
     this.getNum = function(input) {
         const result = input.split(/[a-zA-z]/)
         const number = result[0]
+        console.log('number: ', number)
 
         if (number === '') {
             return 1
+        } else if (/[/](.*)([/])/g.test(number)) {
+            return 'invalid number'
         } else {
             try {
                 const parseNumber = Number.parseFloat(eval(result[0]))
@@ -42,25 +45,25 @@ function ConvertHandler() {
 
         switch (initUnit.toLowerCase()) {
           case 'gal':
-            result = 'l'
-            break
-          case 'l':
-            result = 'gal'
-            break
-        case 'lbs':
-            result = 'kg'
-            break
-            case 'kg':
-            result = 'lb'
-            break
-            case 'mi':
-                result = 'km'
+                result = 'l'
                 break
-          case 'km':
-            result = 'mi'
+            case 'l':
+                result = 'gal'
+                break
+            case 'lbs':
+                result = 'kg'
+                break
+        case 'kg':
+                result = 'lb'
+                break
+        case 'mi':
+            result = 'km'
             break
-        default:
-            result = 'error'
+          case 'km':
+                result = 'mi'
+                break
+            default:
+                result = 'error'
         }
 
         console.log('getReturnUnit: ', result)
@@ -68,9 +71,33 @@ function ConvertHandler() {
     }
 
     this.spellOutUnit = function(unit) {
-        const result = 0
+        let result
 
-        console.log('spellOutUnit: ', unit)
+        switch (unit.toLowerCase()) {
+          case 'gal':
+                result = 'gallons'
+                break
+            case 'l':
+                result = 'liters'
+                break
+        case 'lbs':
+                result = 'pounds'
+                break
+          case 'kg':
+                result = 'kilograms'
+                break
+          case 'mi':
+                result = 'miles'
+                break
+        case 'km':
+                result = 'kilometers'
+                break
+          default:
+                result = 'units'
+                break
+        }
+
+        console.log('spellOutUnit: ', result)
         return result
     }
 
@@ -85,24 +112,24 @@ function ConvertHandler() {
             const evalInitNum = Number.parseFloat(eval(initNum))
 
             switch (initUnit) {
-            case 'gal':
-                  result = galToL * evalInitNum
-                    break
-                case 'l':
-                result = evalInitNum / galToL
-                    break
-            case 'lbs':
-                result = lbsToKg * evalInitNum
+                case 'gal':
+                result = galToL * evalInitNum
                 break
-            case 'kg':
+            case 'l':
                     result = evalInitNum / galToL
-                    break
-            case 'mi':
-                result = miToKm * evalInitNum
                 break
-                case 'km':
-                result = evalInitNum / miToKm
+                case 'lbs':
+                    result = lbsToKg * evalInitNum
                     break
+                case 'kg':
+                result = evalInitNum / galToL
+                break
+                case 'mi':
+                    result = miToKm * evalInitNum
+                    break
+            case 'km':
+                    result = evalInitNum / miToKm
+                break
               default:
                   result = 'error'
             }
@@ -123,15 +150,19 @@ function ConvertHandler() {
         } else if (initUnit === 'invalid unit') {
             return 'invalid unit'
         } else {
-                const result = {
-                    initNum,
-                    initUnit,
-                    returnNum,
-                    returnUnit,
-                    string: `${initNum} ${initUnit} converts to ${returnNum} ${returnUnit}`,
-                }
+            const initSpell = this.spellOutUnit(initUnit)
+            const returnSpell = this.spellOutUnit(returnUnit)
 
-                return result
+            const result = {
+                initNum,
+                initUnit,
+                returnNum,
+                returnUnit,
+                string: `${initNum} ${initSpell} converts to ${returnNum} ${returnSpell}`,
+                // string: `${initNum} ${initUnit} converts to ${returnNum} ${returnUnit}`,
+            }
+
+            return result
         }
     }
 }
