@@ -67,14 +67,20 @@ suite('Unit Tests', function() {
                 'LBS',
                 'KG',
             ]
-            input.forEach(function(ele) {
-                //assert
+            input.forEach(function(ele, i) {
+                assert.equal(
+                    convertHandler.getUnit(ele),
+                    input[i].toLowerCase()
+                )
             })
             done()
         })
 
         test('Unknown Unit Input', function(done) {
-            //done();
+            const input = '12LBSS'
+            const expect = 'invalid unit'
+            assert.equal(convertHandler.getUnit(input), expect)
+            done()
         })
     })
 
@@ -111,7 +117,7 @@ suite('Unit Tests', function() {
     suite('Function convertHandler.convert(num, unit)', function() {
         test('Gal to L', function(done) {
             const input = [5, 'gal']
-            const expected = 18.9271
+            const expected = 18.92705
             assert.approximately(
                 convertHandler.convert(input[0], input[1]),
                 expected,

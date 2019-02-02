@@ -10,7 +10,7 @@ function ConvertHandler() {
     this.getNum = function(input) {
         const result = input.split(/[a-zA-z]/)
         const number = result[0]
-        console.log('number: ', number)
+        // console.log('number: ', number)
 
         if (number === '') {
             return 1
@@ -20,7 +20,7 @@ function ConvertHandler() {
             try {
                 const parseNumber = Number.parseFloat(eval(result[0]))
 
-                console.log('getNum: ', parseNumber)
+                // console.log('getNum: ', parseNumber)
                 return parseNumber
             } catch (err) {
                 return 'invalid number'
@@ -31,12 +31,12 @@ function ConvertHandler() {
     this.getUnit = function(input) {
         const result = input.split(/[\d|.|+|-|*|\/\\]/)
         const unit = result[result.length - 1].toLowerCase()
-        const validUnits = ['gal', 'l', 'lbs', 'kg', 'mi', 'km']
+        const validUnits = ['gal', 'l', 'mi', 'km', 'lbs', 'kg']
 
-        console.log(
-            'getUnit: ',
-            validUnits.includes(unit) ? unit : 'invalid unit'
-        )
+        // console.log(
+        //     'getUnit: ',
+        //     validUnits.includes(unit) ? unit : 'invalid unit'
+        // )
         return validUnits.includes(unit) ? unit : 'invalid unit'
     }
 
@@ -45,28 +45,28 @@ function ConvertHandler() {
 
         switch (initUnit.toLowerCase()) {
           case 'gal':
-                result = 'l'
-                break
-            case 'l':
-                result = 'gal'
-                break
-            case 'lbs':
-                result = 'kg'
-                break
-        case 'kg':
-                result = 'lb'
-                break
-        case 'mi':
-            result = 'km'
+            result = 'l'
             break
-          case 'km':
-                result = 'mi'
+        case 'l':
+            result = 'gal'
+            break
+        case 'lbs':
+            result = 'kg'
+            break
+            case 'kg':
+            result = 'lbs'
+            break
+            case 'mi':
+                result = 'km'
                 break
-            default:
-                result = 'error'
+        case 'km':
+            result = 'mi'
+            break
+        default:
+            result = 'invalid unit'
         }
 
-        console.log('getReturnUnit: ', result)
+        // console.log('getReturnUnit: ', result)
         return result
     }
 
@@ -75,29 +75,29 @@ function ConvertHandler() {
 
         switch (unit.toLowerCase()) {
           case 'gal':
-                result = 'gallons'
-                break
-            case 'l':
-                result = 'liters'
-                break
-        case 'lbs':
-                result = 'pounds'
-                break
-          case 'kg':
-                result = 'kilograms'
-                break
-          case 'mi':
-                result = 'miles'
-                break
-        case 'km':
-                result = 'kilometers'
-                break
-          default:
-                result = 'units'
-                break
+            result = 'gallons'
+            break
+        case 'l':
+            result = 'liters'
+            break
+            case 'lbs':
+            result = 'pounds'
+            break
+            case 'kg':
+            result = 'kilograms'
+            break
+            case 'mi':
+            result = 'miles'
+            break
+            case 'km':
+            result = 'kilometers'
+            break
+        default:
+            result = 'units'
+            break
         }
 
-        console.log('spellOutUnit: ', result)
+        // console.log('spellOutUnit: ', result)
         return result
     }
 
@@ -112,32 +112,32 @@ function ConvertHandler() {
             const evalInitNum = Number.parseFloat(eval(initNum))
 
             switch (initUnit) {
-                case 'gal':
-                result = galToL * evalInitNum
-                break
-            case 'l':
-                    result = evalInitNum / galToL
-                break
-                case 'lbs':
-                    result = lbsToKg * evalInitNum
+            case 'gal':
+                    result = galToL * evalInitNum
                     break
-                case 'kg':
+                case 'l':
                 result = evalInitNum / galToL
-                break
-                case 'mi':
-                    result = miToKm * evalInitNum
                     break
-            case 'km':
-                    result = evalInitNum / miToKm
+            case 'lbs':
+                result = lbsToKg * evalInitNum
                 break
+            case 'kg':
+                    result = evalInitNum / galToL
+                    break
+            case 'mi':
+                result = miToKm * evalInitNum
+                break
+                case 'km':
+                result = evalInitNum / miToKm
+                    break
               default:
-                  result = 'error'
+                  return 'invalid number'
             }
 
-            console.log('convert: ', result.toFixed(5))
-            return result.toFixed(5)
+            // console.log('convert: ', result)
+            return +parseFloat(result.toFixed(5))
         } catch (err) {
-            console.log('convert: ', 'error')
+            // console.log('convert: ', 'error')
             return 'error'
         }
     }
